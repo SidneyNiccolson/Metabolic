@@ -1,7 +1,22 @@
 # Django settings for tango_with_django_project project.
-
+import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+#relative paths for telling the project where templates are house or other special directories
+#-getting the location of the settings.py file minus the file itself offcourse
+SETTINGS_DIR = os.path.dirname(__file__)
+#Go one level up to retrieve the projects directory
+PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
+PROJECT_PATH = os.path.abspath(PROJECT_PATH)
+#create the actual template link to tell the project were the template is
+TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
+#get the static directory for images etc
+STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
+#create a location for the database
+DATABASE_PATH = os.path.join(PROJECT_PATH, 'rango.db')
+
+LOGIN_URL = '/rango/login/'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -11,13 +26,13 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': DATABASE_PATH,                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        #'USER': '',
+        #'PASSWORD': '',
+        #'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        #'PORT': '',                      # Set to empty string for default.
     }
 }
 
@@ -50,12 +65,15 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+#above defines where media files uploaded should be stored
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+#Set the media variable for uploading purposes
+MEDIA_URL = '/media/'
+#above defines that every media will be accessible through this url e.g. 127.1/static/
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -72,6 +90,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    STATIC_PATH,
 )
 
 # List of finder classes that know how to find static files in
@@ -83,7 +102,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'mpz%0j#qs^(*a0wd)*ci3lz-bl2rb307&caii)%f&_4$#wqzes'
+SECRET_KEY = 'm+lkrpclwm2r+w1-kt%wxu34@afzqjc!a%@hlz0k@@gfqs0wy%'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -111,6 +130,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    TEMPLATE_PATH,
 )
 
 INSTALLED_APPS = (
@@ -121,9 +141,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'rango',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
