@@ -2,9 +2,20 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>TitleName</title>
 </head>
 <body>
+
+        <h2>Categories</h2>
+        {% if cat %}
+        <ul>
+            {% for ca in cat %}
+            <li><a href="/rango/category/{{ ca.url }}">{{ ca.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <strong>No categories at present.</strong>
+        {% endif %}
 
 </body>
 </html>
